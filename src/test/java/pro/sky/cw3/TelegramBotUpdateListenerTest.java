@@ -52,11 +52,9 @@ public class TelegramBotUpdateListenerTest {
     public void beforeEach() {
         Mockito.when(telegramBot.execute(any())).thenReturn(
                 BotUtils.fromJson(
-                        """
-                                {
-                                "ok": true
-                                }
-                                 """,
+                        "{\n" +
+                        "\"ok\": true\n" +
+                        "}\n",
                         SendResponse.class
                 )
         );
@@ -72,7 +70,7 @@ public class TelegramBotUpdateListenerTest {
 
         ArgumentCaptor<SendMessage> argumentCaptor = ArgumentCaptor.forClass(SendMessage.class);
         Mockito.verify(telegramBot).execute(argumentCaptor.capture());
-        SendMessage actual = ArgumentCaptor.getValue();
+        SendMessage actual = argumentCaptor.getValue();
 
         Assertions.assertThat(actual.getParameters().get("chat_id")).isEqualTo(123L);
         Assertions.assertThat(actual.getParameters().get("text")).isEqualTo(
@@ -89,7 +87,7 @@ public class TelegramBotUpdateListenerTest {
 
         ArgumentCaptor<SendMessage> argumentCaptor = ArgumentCaptor.forClass(SendMessage.class);
         Mockito.verify(telegramBot).execute(argumentCaptor.capture());
-        SendMessage actual = ArgumentCaptor.getValue();
+        SendMessage actual = argumentCaptor.getValue();
 
         Assertions.assertThat(actual.getParameters().get("chat_id")).isEqualTo(123L);
         Assertions.assertThat(actual.getParameters().get("text")).isEqualTo(
